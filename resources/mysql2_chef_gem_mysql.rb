@@ -1,5 +1,6 @@
 property :mysql2_chef_gem_name, String, name_property: true, required: true
 property :gem_version, String, default: '0.4.9'
+property :package_name, [String, Array], default: nil
 property :package_version, String
 
 provides :mysql2_chef_gem
@@ -10,6 +11,7 @@ action :install do
 
   # As a resource: can pass version from calling recipe
   mysql_client 'default' do
+    package_name new_resource.package_name if new_resource.package_name
     version new_resource.package_version if new_resource.package_version
     action :create
   end
